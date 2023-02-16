@@ -1,0 +1,35 @@
+version: '3.9'
+
+# create services
+services:
+  # our app container
+  item-app:
+    image: ghcr.io/muhaimin-a8/item-app:v1
+    restart: always
+    
+    # expose port 8080 on container to 80 on host
+    ports:
+      - 80:8080
+    # make sure that item-db service is started
+    depends_on:
+      item-db:
+        condition: service_started
+
+  # database for item-app
+  item-db:
+    image: mongo:3
+    restart: always
+    # attaching volume to store data presistent
+    volumes:
+      - app-db:/data/db
+    
+    # healt checking
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:27017/accumulator"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+# docker volume to store presistent data
+volumes:
+  app-db:
