@@ -1,14 +1,14 @@
 # base image
 FROM node:14
 
-# setup environment variabel
-ENV NODE_ENV=production DB_HOST=item-db
-
 # setup working directory on image
 WORKDIR /app
 
 # copy all files to image
 COPY . .
+
+# setup environment variabel
+ENV NODE_ENV=production DB_HOST=item-db
 
 # run script to build in production
 RUN npm install --production --unsafe-perm && npm run build
