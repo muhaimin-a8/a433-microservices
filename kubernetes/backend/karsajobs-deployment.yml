@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-tier
+  labels:
+    app: karsajobs
+    tier: backend
+  namespace: prod-ns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+        tier: backend
+      namespace: prod-ns
+    spec:
+      containers:
+      - name: backend
+        image: ghcr.io/muhaimin-a8/karsajobs:latest
+        ports:
+          - containerPort: 8080
+        env:
+        - name: APP_PORT
+          value: $(BACKEND_TIER_SERVICE_PORT_BACKEND)
+        - name: MONGO_HOST
+          value: mongodb://$(MONGO_TIER_SERVICE_HOST):$(MONGO_TIER_SERVICE_PORT_BACKEND)
+        - name: MONGO_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongo-credentials
+              key: MONGO_ROOT_USERNAME
+        - name: MONGO_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mongo-credentials
+              key: MONGO_ROOT_PASSWORD

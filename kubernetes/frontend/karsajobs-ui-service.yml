@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-tier
+  labels:
+    app: karsajobs
+  namespace: prod-ns
+spec:
+  ports:
+  - name: frontend
+    protocol: TCP
+    port: 80
+  selector:
+    tier: frontend
+  type: NodePort
+    

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fontend-tier
+  labels:
+    app: karsajobs
+    tier: fontend
+  namespace: prod-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+        tier: frontend
+      namespace: prod-ns
+    spec:
+      containers:
+      - name: frontend
+        image: ghcr.io/muhaimin-a8/karsajobs-ui:latest
+        ports:
+          - containerPort: 8080
+          - containerPort: 80
+          - containerPort: 443
+        env:
+        - name: VUE_APP_BACKEND
+          value: http://$(BACKEND_TIER_SERVICE_HOST):$(BACKEND_TIER_SERVICE_PORT_BACKEND)
