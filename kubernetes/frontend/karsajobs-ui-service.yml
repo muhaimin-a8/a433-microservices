@@ -9,7 +9,7 @@ spec:
   ports:
   - name: frontend
     protocol: TCP
-    port: 80
+    port: 8000
   selector:
     tier: frontend
   type: NodePort

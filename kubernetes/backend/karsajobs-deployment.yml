@@ -25,9 +25,9 @@ spec:
           - containerPort: 8080
         env:
         - name: APP_PORT
-          value: $(BACKEND_TIER_SERVICE_PORT_BACKEND)
+          value: "8080"
         - name: MONGO_HOST
-          value: mongodb://$(MONGO_TIER_SERVICE_HOST):$(MONGO_TIER_SERVICE_PORT_BACKEND)
+          value: mongodb://$(MONGO_SERVICE_HOST):$(MONGO_SERVICE_PORT_BACKEND)
         - name: MONGO_USER
           valueFrom:
             secretKeyRef:
