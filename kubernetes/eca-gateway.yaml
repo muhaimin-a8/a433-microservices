@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: eca-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: eca
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - eca-gateway
+  http:
+  - match:
+    - uri:
+        exact: /order
+    route:
+    - destination:
+        host: order
+        port:
+          number: 3000
