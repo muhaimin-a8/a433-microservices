@@ -7,7 +7,7 @@ metadata:
     service: shipping
 spec:
   ports:
-  - port: 3000
+  - port: 3001
     name: http
   selector:
     app: shipping
@@ -44,7 +44,7 @@ spec:
         image: ghcr.io/muhaimin-a8/shipping_service:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 3000
+        - containerPort: 3001
         securityContext:
           runAsUser: 1000
         env:
